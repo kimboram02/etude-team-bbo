@@ -497,41 +497,6 @@ mainSlides.addEventListener("mouseleave", () => {
 //
 //
 //
-//
-//
-//makeup scroll event //1900
-window.addEventListener("scroll", function () {
-  console.log(window.scrollY);
-});
-//soon jung
-
-const soonSlider = document.querySelector(".main-soonjung-contents");
-let isDown = false;
-let startX;
-let scrollLeft;
-
-soonSlider.addEventListener("mousedown", (e) => {
-  isDown = true;
-  startX = e.pageX - soonSlider.offsetLeft;
-  scrollLeft = soonSlider.scrollLeft;
-});
-
-soonSlider.addEventListener("mouseleave", () => {
-  isDown = false;
-});
-
-soonSlider.addEventListener("mouseup", () => {
-  isDown = false;
-});
-
-soonSlider.addEventListener("mousemove", (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - slider.offsetLeft;
-  const walk = (x - startX) * 3; // 슬라이드 속도 조절
-  soonSlider.scrollLeft = scrollLeft - walk;
-});
-
 //new-slide
 document.addEventListener("DOMContentLoaded", function () {
   const slideWrapper = document.querySelector(".main-new-contents");
