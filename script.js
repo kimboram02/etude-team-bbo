@@ -365,7 +365,12 @@ const commonHeaderMenuClick = document.querySelectorAll(
 //     commonSearchInput.style.display = "none";
 //   }
 // });
-
+//
+//
+//
+//
+//
+//
 //main-slide
 
 const mainSlides = document.querySelector(".main-slides");
@@ -380,8 +385,10 @@ const mainNextBtn = document.querySelector(".main-next");
 //console.log(mainPrevBtn, mainNextBtn);
 
 //pager
-const mainPagers = document.querySelector(".main-pagers");
-const mainPager = document.querySelectorAll(".main-pagers li");
+const mainPagers = document.querySelector(".main-pager");
+const mainPager = document.querySelectorAll(".main-pager li");
+
+const mainText = document.querySelectorAll(".main-slides-text"); //
 
 //최초 인덱스값
 let mainCurrentIdx = 0;
@@ -396,13 +403,6 @@ const mainUpdateWidth = () => {
   mainSlides.style.width = mainNewWidth;
 };
 
-//초기화
-
-// const mainSetInitialPos = () => {
-//   const mainInitialTranslateValue = -mainSlideWidth * mainSlideCount;
-//   mainSlides.style.transform = `translateX(${mainInitialTranslateValue}${mainPercent})`;
-// };
-
 const mainMakeClone = () => {
   for (let i = 0; i < mainSlideCount; i++) {
     const mainCloneSlide = mainSlide[i].cloneNode(true);
@@ -416,7 +416,6 @@ const mainMakeClone = () => {
     mainSlides.prepend(mainCloneSlide);
   }
   mainUpdateWidth();
-  //mainSetInitialPos();
   setTimeout(() => {
     mainSlides.classList.add("animated");
   }, 100);
@@ -424,32 +423,54 @@ const mainMakeClone = () => {
 
 mainMakeClone();
 
-const mainMoveSlide = (num) => {
-  mainSlides.style.left = `${-num * mainSlideWidth}${mainPercent}`;
-  mainCurrentIdx = num;
+//pager
+const movePager = () => {
+  mainPager.forEach((pager) => {
+    if (pager.classList.contains("active")) {
+      pager.classList.remove("active");
+    }
+  });
+  mainPager[mainCurrentIdx].classList.add("active");
+};
 
-  console.log(mainCurrentIdx, mainSlideCount);
+const mainMoveSlide = (num) => {
+  if (num < 0) {
+    mainSlides.classList.remove("animated");
+    mainText.classList.remove("active");
+    num = mainSlideCount - 1;
+
+    setTimeout(() => {
+      mainSlides.classList.add("animated");
+      mainText.classList.add("active");
+    }, 500);
+  }
+  //console.log(mainCurrentIdx, mainSlideCount);
   if (mainCurrentIdx === mainSlideCount) {
     setTimeout(() => {
       mainSlides.classList.remove("animated");
+      mainText.classList.remove("active");
       mainSlides.style.left = "0px";
       mainCurrentIdx = 0;
     }, 500);
     setTimeout(() => {
       mainSlides.classList.add("animated");
-    }, 600);
+      mainText.classList.add("active");
+    }, 500);
   }
-  if (mainCurrentIdx <= 0) {
-    mainCurrentIdx = 8;
-  }
+
+  mainSlides.style.left = `${-num * mainSlideWidth}${mainPercent}`;
+  mainCurrentIdx = num;
+  movePager();
 };
 
 mainNextBtn.addEventListener("click", () => {
   mainMoveSlide(mainCurrentIdx + 1);
+  movePager(mainCurrentIdx + 1);
 });
 
 mainPrevBtn.addEventListener("click", () => {
   mainMoveSlide(mainCurrentIdx - 1);
+  movePager(mainCurrentIdx - 1);
 });
 
 //auto slide
@@ -472,8 +493,7 @@ mainSlides.addEventListener("mouseenter", () => {
 mainSlides.addEventListener("mouseleave", () => {
   mainAutoSlide();
 });
-//
-//
+
 //
 //
 //
@@ -628,13 +648,17 @@ const newsSlideWidth = newsSlides[0].clientWidth;
 // Move slides to the left
 const newsSlideLeft = () => {
   if (newsCounter > 0) newsCounter--;
-  newsSlider.style.transform = `translateX(${-newsSlideWidth * newsCounter}px)`;
+  newsSlider.style.transform = `translateX(${
+    (-newsSlideWidth - 10) * newsCounter
+  }px)`;
 };
 
 // Move slides to the right
 const newsSlideRight = () => {
   if (newsCounter < newsSlides.length - 1) newsCounter++;
-  newsSlider.style.transform = `translateX(${-newsSlideWidth * newsCounter}px)`;
+  newsSlider.style.transform = `translateX(${
+    (-newsSlideWidth - 10) * newsCounter
+  }px)`;
 };
 // Event listeners for buttons
 newsPrevBtn.addEventListener("click", newsSlideLeft);
