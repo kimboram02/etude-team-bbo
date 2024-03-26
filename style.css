@@ -2244,6 +2244,8 @@ footer {
   color: #111;
   border-radius: 5px 5px 0 0;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  top: -100px;
+  background: #fff;
 }
 .common-footer-family-hidden a {
   display: inline-block;
@@ -3563,7 +3565,13 @@ footer {
   .common-header-wrap {
     background: transparent;
   }
-  /*--- 1024px---*/
+  .common-responsibility-search-box {
+    width: 88%;
+  }
+  .common-responsibility-search-box-icon-x {
+    padding-left: 10px;
+  }
+  /*--- 768px---*/
 
   .main-page {
     width: 100%;
